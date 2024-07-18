@@ -1,64 +1,35 @@
 ﻿using System;
 
-namespace Calculadora
+namespace CalculadoraSimples
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            Console.Write("Digite o primeiro número: ");
-            string input1 = Console.ReadLine();
-            Console.Write("Digite o segundo número: ");
-            string input2 = Console.ReadLine();
-            Console.Write("Digite a operação (+, -, *, /): ");
+            Console.WriteLine("Digite o primeiro número:");
+            double num1 = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Digite o segundo número:");
+            double num2 = double.Parse(Console.ReadLine());
+
+            Console.WriteLine("Digite a operação desejada (+, -, *, /):");
             string operacao = Console.ReadLine();
 
-            try
-            {
-                double resultado = Calcular(input1, input2, operacao);
-                Console.WriteLine($"O resultado de {input1} {operacao} {input2} é {resultado}.");
-            }
-            catch (FormatException ex)
-            {
-                Console.WriteLine($"Erro de formato: {ex.Message}");
-            }
-            catch (DivideByZeroException ex)
-            {
-                Console.WriteLine($"Erro de divisão por zero: {ex.Message}");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Erro inesperado: {ex.Message}");
-            }
+            double resultado = Calcular(num1, num2, operacao);
+
+            Console.WriteLine($"O resultado de {num1} {operacao} {num2} é {resultado}.");
         }
 
-        public static double Calcular(string a, string b, string operacao)
+        public static double Calcular(double num1, double num2, string operacao)
         {
-            if (!double.TryParse(a, out double numero1) || !double.TryParse(b, out double numero2))
-            {
-                throw new FormatException("Entrada inválida. Por favor, insira números válidos.");
-            }
-
             return operacao switch
             {
-                "+" => Somar(numero1, numero2),
-                "-" => Subtrair(numero1, numero2),
-                "*" => Multiplicar(numero1, numero2),
-                "/" => Dividir(numero1, numero2),
-                _ => throw new ArgumentException("Operação inválida. Use +, -, * ou /."),
+                "+" => num1 + num2,
+                "-" => num1 - num2,
+                "*" => num1 * num2,
+                "/" => num1 / num2,
+                _ => throw new ArgumentException("Operação inválida.")
             };
-        }
-
-        public static double Somar(double a, double b) => a + b;
-
-        public static double Subtrair(double a, double b) => a - b;
-
-        public static double Multiplicar(double a, double b) => a * b;
-
-        public static double Dividir(double a, double b)
-        {
-            if (b == 0) throw new DivideByZeroException("Não é possível dividir por zero.");
-            return a / b;
         }
     }
 }
